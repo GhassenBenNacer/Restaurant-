@@ -1,0 +1,38 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="col-8 mx-auto grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Modifier votre Mot de passe</h4>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        <strong>Erreur!</strong> Veuillez corriger les erreurs ci-dessous.
+                        <ul>
+                            {% for field, errors in form.errors.items %}
+                                {% for error in errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+                <div class="form-group">
+                    <label for="id_new_password1">Nouveau mot de passe</label>
+                    <input type="password" class="form-control" id="id_new_password1" name="new_password1" required>
+                </div>
+                <div class="form-group">
+                    <label for="id_new_password2">Confirmer le nouveau mot de passe</label>
+                    <input type="password" class="form-control" id="id_new_password2" name="new_password2" required>
+                </div>
+                <button type="submit" class="btn btn-primary mr-2">Modifier le mot de passe</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

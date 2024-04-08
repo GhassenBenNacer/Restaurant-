@@ -1,0 +1,75 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+<div class="main-panel">
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-lg-8 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title text-center">Détail de réservation</h4>
+              <div class="table-responsive">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td>Nom:</td>
+                      <td>{{ object.Nom }}</td>
+                    </tr>
+                    <tr>
+                      <td>Date:</td>
+                      <td>{{ object.date }}</td>
+                    </tr>
+                    <tr>
+                      <td>Heure:</td>
+                      <td>{{ object.heure }}</td>
+                    </tr>
+                    <tr>
+                      <td>Nombre de personnes:</td>
+                      <td>{{ object.nbre_person }}</td>
+                    </tr>
+                    <tr>
+                      <td>Email:</td>
+                      <td>{{ object.email }}</td>
+                    </tr>
+                    <tr>
+                      <td>Téléphone:</td>
+                      <td>{{ object.telephone }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              {% if not accepted %}
+              <form method="POST" action="{% url 'confirm_reservation' reserv_model.pk %}">
+                {% csrf_token %}
+                <div class="text-center mt-3">
+                    <button type="submit" name="action" value="confirm" class="btn btn-primary mr-2">Confirmer</button>
+                    <button type="submit" name="action" value="reject" class="btn btn-light">Refuser</button>
+                </div>
+            </form>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 grid-margin stretch-card">
+          <div class="card">
+              <div class="card-body">
+                  <h4 class="card-title text-center">Réservations dans la même date</h4>
+                  <ul class="icon-data-list">
+                      {% for other_reservation in reservations_same_date_accepted %}
+                      <li>
+                          <div class="d-flex">
+                              <div>
+                                  <h4 class="text-info mb-1">{{ other_reservation.Nom }}</h4>
+                                  <p class="mb-0">Nombre de personnes: {{ other_reservation.nbre_person }}</p>
+                                  <p class="mb-0">Date: {{ other_reservation.date }}</p>
+                                  <p class="mb-0">Heure: {{ other_reservation.heure }}</p>
+                              </div>
+                          </div>
+                      </li>
+                      {% endfor %}
+                  </ul>
+              </div>
+          </div>
+      </div>
+{% endblock %}

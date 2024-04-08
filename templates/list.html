@@ -1,0 +1,171 @@
+{% extends "base2.html" %}
+{% load static %}
+
+{% block content %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css" rel="stylesheet">
+
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-md-12 grid-margin">
+              <div class="row">
+                <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                  <h3 class="font-weight-bold">Bienvenue {{ user.username }}</h3>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+              <div class="card tale-bg">
+                <div class="card-people mt-auto">
+                  <img src="{% static 'adminInterface/images/dashboard/people.svg' %}" alt="people">
+                  <div class="weather-info">
+                    <div class="d-flex">
+
+                      <div class="ml-2">
+                        <h3 class="mb-0 font-weight-normal">{{ current_date }}</h3>
+                        <h6 class="font-weight-normal">France ,Paris </h6>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 grid-margin transparent">
+              <div class="row">
+                <div class="col-md-6 mb-4 stretch-card transparent">
+                  <div class="card card-tale">
+                    <div class="card-body">
+                      <a href="{% url 'today_reserv' %} "style="color: white;">
+                      <p class="mb-4">Réservations du jour</p>
+                      </a>
+                      <p class="fs-30 mb-2">{{ today_reservations }}</p>
+                    </div>
+                  </div>
+                </div>
+                
+
+                <div class="col-md-6 mb-4 stretch-card transparent">
+                  <div class="card card-dark-blue">
+                    <div class="card-body">
+                      <a href="{% url 'all_reservations' %} "style="color: white;">
+                      <p class="mb-4">Réservations totales</p>
+                     </a> 
+                      <p class="fs-30 mb-2">{{ total_reservations }}</p>
+                       
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-4 mb-lg-0 stretch-card transparent">
+                  <div class="card card-light-blue">
+                    <div class="card-body">
+                      <a href="{% url 'reserv_en_attente' %} "style="color: white;">
+                      <p class="mb-4">Demande de reservation</p>
+                      </a>
+                      <p class="fs-30 mb-2">{{ not_confirmed_reservations }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6 stretch-card transparent">
+                  <div class="card card-light-danger">
+                    <div class="card-body">
+                      <p class="mb-4">Moyenne des clients par reservation</p>
+                      <p class="fs-30 mb-2">{{ mean_clients_per_reservation }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+
+        <div class="col-lg-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Reservations</h4>
+
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>
+                        Nom & Prénom
+                      </th>
+                      <th>
+                        Date
+                      </th>
+                      <th>
+                        Heure
+                      </th>
+                      <th>
+                        Nombre de personnes
+                      </th>
+                      <th>
+                        Stauts
+                      </th>
+                      <th>
+                        Detail
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for reserv_model in object_list %}
+                    <tr>
+
+                      {% csrf_token %}
+                      <td>
+                        {{ reserv_model.Nom }}
+                      </td>
+                      <td>
+                        {{ reserv_model.date }}
+                      </td>
+                      <td>
+                        {{ reserv_model.heure }}
+                      </td>
+                      <td>
+                        {{ reserv_model.nbre_person }}
+                      </td>
+                      <td>
+
+                          {% if reserv_model.status == 'Accepted' %}
+                              <label class="badge badge-success">Acceptée</label>
+                          {% elif reserv_model.status == 'Pending' %}
+                              <label class="badge badge-warning">En attente</label>
+                          {% else %}
+                              <label class="badge badge-danger">{{ reserv_model.status }}</label>
+                          {% endif %}
+                      <td>
+                          <a href="{% url 'reserv_detail' pk=reserv_model.pk %}">
+                              <i class="bi bi-info-circle"></i> <!-- Bootstrap icon for details -->
+                          </a>
+                      </td>
+                    </tr>
+                    {%endfor%}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+            
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+ 
+
+{% endblock %}
