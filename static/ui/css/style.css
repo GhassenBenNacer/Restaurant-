@@ -103,11 +103,7 @@ h1, h2, h3, h4, h5, h6, figure {
   z-index: 1001;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
-@media screen and (max-width: 768px) {
-  .gtco-nav {
-    padding: 20px 0;
-  }
-}
+
 .gtco-nav #gtco-logo {
   font-size: 20px;
   margin: 0;
@@ -122,11 +118,8 @@ h1, h2, h3, h4, h5, h6, figure {
   padding: 5px 10px;
   color: #fff;
 }
-@media screen and (max-width: 768px) {
-  .gtco-nav .menu-1, .gtco-nav .menu-2 {
-    display: none;
-  }
-}
+
+
 .gtco-nav ul {
   padding: 0;
   margin: 2px 0 0 0;
@@ -1178,11 +1171,7 @@ form label {
   z-index: 2001;
   border-bottom: none !important;
 }
-@media screen and (max-width: 768px) {
-  .gtco-nav-toggle {
-    display: block;
-  }
-}
+
 
 .btn {
   margin-right: 4px;

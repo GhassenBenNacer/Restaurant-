@@ -7,15 +7,18 @@ from django.db.models import Count, Avg
 from .models import Notification
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
 
 
 
 
 
-class ReservListView(LoginRequiredMixin ,ListView):
+
+class ReservListView(LoginRequiredMixin, ListView):
     model = reserv_model
-    template_name = 'list.html'  
+    template_name = 'list.html'
     context_object_name = 'reservations'
+    paginate_by = 5  # Number of reservations per page
 
     def get_queryset(self):
         # Get the queryset filtered by date greater than or equal to now
@@ -42,10 +45,17 @@ class ReservListView(LoginRequiredMixin ,ListView):
         context['mean_clients_per_reservation'] = mean_clients_per_reservation_int
         context['current_date'] = current_date
 
+        # Retrieve notifications
         notifications = Notification.objects.all().order_by('-created_at')
         context['notifications'] = notifications
+
         return context
 
+    def post(self, request, *args, **kwargs):
+        if 'delete_all' in request.POST:
+            # Delete all notifications
+            Notification.objects.all().delete()
+        return redirect('list')
 
 class AllReservListView(LoginRequiredMixin ,ListView):
     model = reserv_model
